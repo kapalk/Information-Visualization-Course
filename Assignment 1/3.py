@@ -29,12 +29,12 @@ def overestimate_debt(debt):
     for i in range(1,10):
         plt.plot(debt[' debt in million euros'],'r',linewidth = 1)
         plt.plot(debt.iloc[13+i:23][' debt in million euros'],'r',linewidth = 2*i)   
-    plt.savefig('lying_debt.png')
+    plt.savefig('results/lying_debt.png')
 
 def underestimate_debt(debt):
     plt.plot(debt.iloc[10:26][' debt / GDP %'])
     plt.gca().invert_yaxis()
-    plt.savefig('lying_against_debt.png')
+    plt.savefig('results/lying_against_debt.png')
     plt.xlabel('Year')
     plt.ylabel('debt / GDP %')
 
@@ -65,7 +65,7 @@ def realistic_debt(debt):
                  xytext =(1995,debt.ix[1995][' debt / GDP %']+4),
                                               arrowprops=dict(facecolor='black',
                                                               shrink=0.05))
-    plt.savefig('true_debt.png')
+    plt.savefig('results/true_debt.png')
 
 def trellis_visualization(wine):
     wine['wine'] = wine['wine'].astype(object)
@@ -75,22 +75,20 @@ def trellis_visualization(wine):
     g.map_offdiag(plt.scatter)
     plt.subplots_adjust(top=0.9)
     g.fig.suptitle('wine trellis, 1 = blue, 2 = red, 3 = purple')
-    plt.savefig('trellis.png')
+    plt.savefig('results/trellis.png')
     
     
     
 if __name__ == "__main__": 
-    debt = pd.read_table('/Users/kasperipalkama/Documents/Koulu/'\
-              'Information Visualization/Exercise1/debt.txt',sep = ',',
+    debt = pd.read_table('input data/debt.txt',sep = ',',
               skiprows = [1,2],header = 0,index_col = 0)
     style.use('ggplot')
-    overestimate_debt(debt)
-    underestimate_debt(debt)
+#    overestimate_debt(debt)
+#    underestimate_debt(debt)
 #    realistic_debt(debt)
-    wine = pd.read_csv('/Users/kasperipalkama/Documents/Koulu/'\
-              'Information Visualization/Exercise1/wine.data',header = None)
+    wine = pd.read_csv('input data/wine.data',header = None)
     wine.columns = ['wine','alcohol','malic acid','ash','alcalinity of ash',
                           'magnesium','total phenols','flavonoids','nonflavonoid phenols',
                           'proanthocyanins','color intensity','hue','OD280/OD315 of diluted wines',
                           'Proline']
-#    trellis_visualization(wine)
+    trellis_visualization(wine)
