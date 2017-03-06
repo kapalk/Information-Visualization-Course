@@ -15,20 +15,21 @@ import seaborn as sns
 
 
 def overestimate_debt(debt):
-    highest_debt = debt.ix[2015][' debt in million euros']
-    lowest_debt = debt.ix[1940][' debt in million euros']
-    high_debt_txt = 'Year 2015, Debt: ' + str(int(highest_debt*10**6)) + ' !!!'
+    scale = 2
+    df = debt.copy()
+    highest_debt = scale*df.ix[2015][' debt in million euros']
+    lowest_debt = df.ix[1940][' debt in million euros']
+    high_debt_txt = 'Year 2015, Debt: ' + str(int(highest_debt/scale*10**6)) + ' !!!'
     low_debb_txt = 'Year 1940, Debt:'  + str(lowest_debt)+'M'
     
-    plt.axis([1930,2200,0,110000])
+    plt.axis([1930,2200,0,highest_debt+10000])
     plt.xticks([])
     plt.yticks([])
-    
+    df.ix[2015][' debt in million euros'] = highest_debt
+    print(df.ix[2015][' debt in million euros'])
     plt.annotate(high_debt_txt,xy = (2015,highest_debt))
     plt.annotate(low_debb_txt,xy = (1940,lowest_debt))
-    for i in range(1,10):
-        plt.plot(debt[' debt in million euros'],'r',linewidth = 1)
-        plt.plot(debt.iloc[13+i:23][' debt in million euros'],'r',linewidth = 2*i)   
+    plt.plot(df[' debt in million euros'],'-r',linewidth = 2)
     plt.savefig('results/lying_debt.png')
 
 def underestimate_debt(debt):
@@ -89,8 +90,8 @@ if __name__ == "__main__":
     debt = pd.read_table('input data/debt.txt',sep = ',',
               skiprows = [1,2],header = 0,index_col = 0)
     style.use('ggplot')
-#    overestimate_debt(debt)
-    underestimate_debt(debt)
+    overestimate_debt(debt)
+#    underestimate_debt(debt)
 #    realistic_debt(debt)
     wine = pd.read_csv('input data/wine.data',header = None)
     wine.columns = ['wine','alcohol','malic acid','ash','alcalinity of ash',
