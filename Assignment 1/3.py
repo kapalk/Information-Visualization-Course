@@ -40,8 +40,7 @@ def underestimate_debt(debt):
     plt.xlabel('Year')
     newYax = [tick for tick in debt.iloc[10:25][' debt / GDP %']]
     plt.axis([2002,2018,142,173.8])
-    plt.yticks([150, 159.5 , 173.8],['50','40','30'])
-    plt.yticks(['0', '10','20', '30', '40', '50'])   
+    plt.yticks([150, 159.5 , 173.8],['50','40','30'])  
     plt.savefig('results/lying_against_debt.png')
     
 
