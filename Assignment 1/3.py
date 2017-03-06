@@ -32,11 +32,18 @@ def overestimate_debt(debt):
     plt.savefig('results/lying_debt.png')
 
 def underestimate_debt(debt):
-    plt.plot(debt.iloc[10:26][' debt / GDP %'])
-    plt.gca().invert_yaxis()
-    plt.savefig('results/lying_against_debt.png')
-    plt.xlabel('Year')
+    height = (100 - debt.iloc[10:25][' debt / GDP %'])+100
+    print(height)
+    plt.bar(debt.index.values[10:25],height,
+                color = 'g')
     plt.ylabel('debt / GDP %')
+    plt.xlabel('Year')
+    newYax = [tick for tick in debt.iloc[10:25][' debt / GDP %']]
+    plt.axis([2002,2018,142,173.8])
+    plt.yticks([150, 159.5 , 173.8],['50','40','30'])
+    plt.yticks(['0', '10','20', '30', '40', '50'])   
+    plt.savefig('results/lying_against_debt.png')
+    
 
 def realistic_debt(debt):
     plt.plot(debt.iloc[0:23][' debt / GDP %'],'go-',label = 'historial data')
@@ -84,11 +91,11 @@ if __name__ == "__main__":
               skiprows = [1,2],header = 0,index_col = 0)
     style.use('ggplot')
 #    overestimate_debt(debt)
-#    underestimate_debt(debt)
+    underestimate_debt(debt)
 #    realistic_debt(debt)
     wine = pd.read_csv('input data/wine.data',header = None)
     wine.columns = ['wine','alcohol','malic acid','ash','alcalinity of ash',
                           'magnesium','total phenols','flavonoids','nonflavonoid phenols',
                           'proanthocyanins','color intensity','hue','OD280/OD315 of diluted wines',
                           'Proline']
-    trellis_visualization(wine)
+#    trellis_visualization(wine)
