@@ -14,7 +14,7 @@ import seaborn as sns
 
 
 
-def task_3a(debt):
+def overestimate_debt(debt):
     highest_debt = debt.ix[2015][' debt in million euros']
     lowest_debt = debt.ix[1940][' debt in million euros']
     high_debt_txt = 'Year 2015, Debt: ' + str(int(highest_debt*10**6)) + ' !!!'
@@ -28,19 +28,17 @@ def task_3a(debt):
     plt.annotate(low_debb_txt,xy = (1940,lowest_debt))
     for i in range(1,10):
         plt.plot(debt[' debt in million euros'],'r',linewidth = 1)
-        plt.plot(debt.iloc[13+i:23][' debt in million euros'],'r',linewidth = 2*i)
-    plt.arrow(2014,highest_debt-10**4,2015,high_debt_txt,head_width=0.05,
-              head_length=0.1, fc='k', ec='k')    
+        plt.plot(debt.iloc[13+i:23][' debt in million euros'],'r',linewidth = 2*i)   
     plt.savefig('lying_debt.png')
 
-def task_3b(debt):
+def underestimate_debt(debt):
     plt.plot(debt.iloc[10:26][' debt / GDP %'])
     plt.gca().invert_yaxis()
     plt.savefig('lying_against_debt.png')
     plt.xlabel('Year')
     plt.ylabel('debt / GDP %')
 
-def task_3d(debt):
+def realistic_debt(debt):
     plt.plot(debt.iloc[0:23][' debt / GDP %'],'go-',label = 'historial data')
     plt.plot(debt.iloc[22:24][' debt / GDP %'],'bo-',label = 'This year')
     plt.plot(debt.iloc[23:26][' debt / GDP %'],'ro-',label = 'prediction')
@@ -69,7 +67,7 @@ def task_3d(debt):
                                                               shrink=0.05))
     plt.savefig('true_debt.png')
 
-def task_4a(wine):
+def trellis_visualization(wine):
     wine['wine'] = wine['wine'].astype(object)
     data = wine[['alcohol','malic acid','ash','alcalinity of ash','wine']]
     g = sns.PairGrid(data,hue='wine',vars= ['alcohol','malic acid','ash',
@@ -86,13 +84,13 @@ if __name__ == "__main__":
               'Information Visualization/Exercise1/debt.txt',sep = ',',
               skiprows = [1,2],header = 0,index_col = 0)
     style.use('ggplot')
-    task_3a(debt)
-#    task_3b(debt)
-#    task_3d(debt)
+    overestimate_debt(debt)
+    underestimate_debt(debt)
+#    realistic_debt(debt)
     wine = pd.read_csv('/Users/kasperipalkama/Documents/Koulu/'\
               'Information Visualization/Exercise1/wine.data',header = None)
     wine.columns = ['wine','alcohol','malic acid','ash','alcalinity of ash',
                           'magnesium','total phenols','flavonoids','nonflavonoid phenols',
                           'proanthocyanins','color intensity','hue','OD280/OD315 of diluted wines',
                           'Proline']
-#    task_4a(wine)
+#    trellis_visualization(wine)
