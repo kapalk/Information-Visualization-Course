@@ -21,10 +21,10 @@ def dimReduction(data):
 def scatterPlot(data,party,label,xlabel,ylabel):
     style.use('ggplot')
     plt.figure()
-    l1 = plt.plot(data[np.where(party == 0)[0],0],
-             data[np.where(party == 0)[0],1],'bo',label = label[0])
-    l2 = plt.plot(data[np.where(party == 1)[0],0],
-             data[np.where(party == 1)[0],1],'ro',label = label[1])
+    plt.plot(data[np.where(party == 0)[0],0],
+         data[np.where(party == 0)[0],1],'bo',label = label[0])
+    plt.plot(data[np.where(party == 1)[0],0],
+         data[np.where(party == 1)[0],1],'ro',label = label[1])
     plt.legend(loc = 'best')
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
@@ -32,6 +32,7 @@ def scatterPlot(data,party,label,xlabel,ylabel):
 
 if __name__ == '__main__':
     votes = getData('input data/congress_votes.dat')
+    votes = votes.iloc[:,1:]
     party = getData('input data/congress_party.dat')
     dim_red_votes = dimReduction(votes)
     scatterPlot(data = dim_red_votes,party = party,

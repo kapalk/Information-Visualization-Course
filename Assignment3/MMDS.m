@@ -1,8 +1,8 @@
 clear all;
 close all;
 clc;
-mun_data = load('mun_data.dat');
-mun_names = importdata('mun_names.dat');
+mun_data = load('input data/mun_data.dat');
+mun_names = importdata('input data/mun_names.dat');
 dissimilarities = pdist(mun_data);
 [metric_mds,~,disparities_mmds] = mdscale(dissimilarities,2,'Criterion','metricstress');
 [sammon,~,disparities_sammon] = mdscale(dissimilarities,2,'Criterion','sammon');
@@ -20,19 +20,18 @@ print('mmds_sammon','-dpng')
 
 distances_mmds = pdist(metric_mds);
 figure()
-plot(dissimilarities,distances_mmds,'bo', ...
-[0 max(dissimilarities)],[0 max(dissimilarities)],'r.-');
+hold on
+plot(dissimilarities,distances_mmds,'ro')%, ...
+%[0 max(dissimilarities)],[0 max(dissimilarities)],'y.-');
 xlabel('Dissimilarities'); ylabel('Distances')
-title('Shepard plot using Metric MDS')
-print('shepard_mmds','-dpng')
 
 distances_sammon = pdist(sammon);
-figure()
-plot(dissimilarities,distances_sammon,'bo', ...
-[0 max(dissimilarities)],[0 max(dissimilarities)],'r.-');
-xlabel('Dissimilarities'); ylabel('Distances')
-title('Shepard plot using Sammon mapping')
-print('shepard_sammon','-dpng')
+plot(dissimilarities,distances_sammon,'go', ...
+[0 max(dissimilarities)],[0 max(dissimilarities)],'k.-');
+legend('MMDS','Sammon','location','best');
+hold off
+print('shepard_mmds_sammon_comparison','-dpng')
+
 
 
 
